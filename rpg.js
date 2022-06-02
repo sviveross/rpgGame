@@ -7,27 +7,39 @@ function Character(name, hitpoints, attackPower, defense, dickSize) {
     this.defense = defense;
     this.dickSize = dickSize;
     this.attack = (target) => {
-        console.log(`${this.name} attacked ${target.name} for ${this.attackPower}`)
-        target.hitpoints = target.hitpoints - (this.attackPower - target.defense)
-    }
+        console.log(
+            `${this.name} attacked ${target.name} for ${this.attackPower}.`
+            );
+        target.hitpoints = target.hitpoints - (this.attackPower - target.defense);
+    };
     this.checkHealth = () => {
-        console.log(`${this.name}'s current hitpoints: ${this.hitpoints}.`)
-    }
-};
+        console.log(`${this.name}'s current hitpoints: ${this.hitpoints}.`);
+    };
+}
 
 const main = async () => {
     greeting ();
-    const answer = await initialPRompt();
+    const answers = await initialPRompt();
+    const charName = answers.name;
+    const charClass = answers.class.toLowerCase();
+    welcomeChar(charName, charClass);
+    const isRolling = await isRollingStats();
+
+    
+    if (!isRolling) {
+        console.log("You can't play the game without stats...");
+    };
+
+    rollStats();
+
+};
+const greeting = () => {
+    console.log(`-----------------------------
+WELCOME to the most sick RPG.
+    Get Ready to Fight!!!
+-----------------------------`);
 };
 
-    const greeting = () => {
-    console.log(`WELCOME to the GAME`);
-  
-};
-
-const welcomeChar = (charName, charClass) => {
-    console.log(`Hello ${charName} the ${charClass}.`)
-}
 
 const initialPRompt = async () => {
     const answers = await inquirer.prompt([
@@ -39,12 +51,40 @@ const initialPRompt = async () => {
             name: 'class',
             message: 'What class is your character?',
             type: 'list',
-            choices: ['Druid','Barbarian', 'Fighter', 'Wizard', 'Assassin', 'Healer'],
+            choices: ['Druid',
+            'Barbarian', 
+            'Fighter', 
+            'Wizard', 
+            'Assassin', 
+            'Healer'
+        ],
         },
     ]);
 
         return answers;
 };
+const welcomeChar = (charName, charClass) => {
+    console.log(`Hello, ${charName} the ${charClass}.`)
+};
+
+const isRollingStats = async () => {
+    const isRolling = await inquirer.prompt([
+        {
+            name: "isRollingStats",
+            message: "Would you like to role your stats?",
+            type: "list",
+            choices: ['Yes', 'No']
+        }
+    ]);
+
+    return isRolling.isRollingStats === 'Yes';
+}
+
+const rollStats = () => {
+
+}
+
+main();
 // inquirer
 //     .prompt([
 //         {

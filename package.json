@@ -4,6 +4,7 @@
   "description": "an rpg that sean always wins",
   "main": "rpg.js",
   "scripts": {
+    "start":"node rpg.js",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "author": "Sean",
